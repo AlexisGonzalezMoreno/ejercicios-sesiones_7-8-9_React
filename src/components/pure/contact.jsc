@@ -1,0 +1,42 @@
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Contact } from '../../models/contact.class'
+
+const ContactComponent = ({ contact, connect, remove }) => {
+
+    useEffect(() => {
+        console.log('Created contact.');
+        return () => {
+            console.log(`Contact: ${contact.name} is going to unmount`);
+        };
+    }, [contact]);
+
+    function contactConnectedIcon() {
+        if(contact.connected) return (<i onClick={ () => connect(contact) } className='bi bi-eye-fill' style={{color: 'green', cursor: 'pointer'}}></i>)
+        else return(<i onClick={ () => connect(contact) } className='bi bi-eye-slash-fill' style={{color: 'black', cursor: 'pointer'}}></i>)
+    }
+
+    return (
+        <tr className='fw-normal'>
+            <th>
+                <span className='ms-2'>{ contact.name }</span>
+            </th>
+            <td className='align-middle'>
+                <span>{ contact.surname }</span>
+            </td>
+            <td className='align-middle'>
+                <span>{ contact.email }</span>
+            </td>
+            <td className='align-middle'>
+                { contactConnectedIcon() }
+                <i onClick={ () => remove(contact)} className='bi bi-trash-fill' style={{color: 'tomato', cursor: 'pointer'}}></i>
+            </td>
+        </tr>
+    );
+}
+
+ContactComponent.propTypes = {
+    contact: PropTypes.instanceOf(Contact)
+};
+
+export default ContactComponent;
